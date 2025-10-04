@@ -114,6 +114,7 @@ public class NumberTriangle {
 
         // will need to return the top of the NumberTriangle,
         // so might want a variable for that.
+        java.util.List<NumberTriangle> lastRow = new java.util.ArrayList<>();
         NumberTriangle top = null;
 
         String line = br.readLine();
@@ -123,11 +124,24 @@ public class NumberTriangle {
             System.out.println(line);
 
             // TODO process the line
-
+            line = line.trim();
             //read the next line
-            line = br.readLine();
+            if (line.isEmpty()) {continue;}
+            String[] parts = line.split("\\s+");
+            java.util.List<NumberTriangle> row = new java.util.ArrayList<>(parts.length);
+            for (String part : parts) {
+                row.add(new NumberTriangle(Integer.parseInt(part)));
+            }
+            if (top == null) {
+                top = row.get(0);
+            }
+            for (int i = 0; i < lastRow.size(); i++) {
+                lastRow.get(i).setLeft(row.get(i));
+                lastRow.get(i).setRight(row.get(i));
+            }
+
+            lastRow = row;
         }
-        br.close();
         return top;
     }
 
